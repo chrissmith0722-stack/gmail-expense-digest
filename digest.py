@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import argparse
 import csv
-import mailbox
 import re
+import sys
 from email import policy
 from email.parser import BytesParser
 from pathlib import Path
@@ -52,9 +52,17 @@ def parse_eml(path: Path) -> dict:
     if msg.is_multipart():
         for part in msg.walk():
             if part.get_content_type() == "text/plain":
-                body += part.get_content() or ""
+                try:
+                    body += part.get_content() or ""
+                except Exception:
+                    payload = part.get_payload(decode=True) or b""
+                    body += payload.decode("utf-8", errors="replace")
     else:
-        body = msg.get_content() or ""
+        try:
+            body = msg.get_content() or ""
+        except Exception:
+            payload = msg.get_payload(decode=True) or b""
+            body = payload.decode("utf-8", errors="replace")
     blob = f"{subject}\n{from_hdr}\n{body}"
     amount, currency = extract_amount(blob)
     merchant = from_hdr
@@ -71,8 +79,12 @@ def parse_eml(path: Path) -> dict:
 
 
 def collect_emls(inbox: Path) -> list[Path]:
+    if not inbox.exists():
+        raise FileNotFoundError(f"Inbox path not found: {inbox}")
     if inbox.is_file() and inbox.suffix.lower() == ".eml":
         return [inbox]
+    if not inbox.is_dir():
+        raise NotADirectoryError(f"Expected a .eml file or directory: {inbox}")
     return sorted(inbox.glob("*.eml"))
 
 
@@ -82,8 +94,15 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("expenses.csv"))
     args = parser.parse_args()
 
-    rows = [parse_eml(p) for p in collect_emls(args.inbox)]
+    try:
+        paths = collect_emls(args.inbox)
+    except (FileNotFoundError, NotADirectoryError) as err:
+        print(err, file=sys.stderr)
+        sys.exit(1)
+
+    rows = [parse_eml(p) for p in paths]
     fields = ["date", "merchant", "amount", "currency", "category", "source_file"]
+    args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fields)
         writer.writeheader()
