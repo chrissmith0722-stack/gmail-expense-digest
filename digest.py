@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import mailbox
 import re
 from email import policy
 from email.parser import BytesParser
@@ -82,7 +81,11 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("expenses.csv"))
     args = parser.parse_args()
 
-    rows = [parse_eml(p) for p in collect_emls(args.inbox)]
+    paths = collect_emls(args.inbox)
+    if not paths:
+        raise SystemExit(f"No .eml files found under {args.inbox}")
+
+    rows = [parse_eml(p) for p in paths]
     fields = ["date", "merchant", "amount", "currency", "category", "source_file"]
     with args.out.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fields)
