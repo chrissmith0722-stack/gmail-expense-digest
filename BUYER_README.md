@@ -15,7 +15,7 @@
 | Receipt / purchase email → expenses CSV | `digest.py` writes date, merchant, amount, currency, category, source_file |
 | Sample / demo included | `sample_emails/*.eml` (4 fictional receipts) + runnable demo |
 | Works on Mac / Windows / Linux | Python **3.9+**; stdlib-only path documented |
-| Setup / FAQ (Tool pack) | `SETUP.md` + `FAQ.md` present in **Tool** zip |
+| Setup / FAQ | `SETUP.md` + `FAQ.md` present in the zip |
 | "What's included" bullet list | Same filenames (or clear README map) inside the zip |
 | Support line | Real reply path (purchase email or stated channel) |
 
@@ -23,12 +23,13 @@ If a bullet is on the listing, it belongs in the zip **or** the buyer-facing REA
 
 ---
 
-## Publish-ready zip names
+## Publish-ready zip (ONE SKU)
 
-| Zip | Buyer experience |
-| --- | --- |
-| **`Gmail-Expense-Digest-Tool.zip`** (primary, ~$29) | Nested folder with README, SETUP, FAQ, LISTING-gumroad, demo golden CSV, samples, `digest.py` |
-| `Gmail-Expense-Digest-Offline.zip` (thin, ~$15) | Flat drop: README, README-START-HERE, samples, `digest.py` — same digester, fewer buyer docs |
+| Zip | Buyer experience | Price |
+| --- | --- | ---: |
+| **`Gmail-Expense-Digest.zip`** | Full buyer pack: README, README-START-HERE, SETUP, FAQ, LISTING-gumroad, demo golden CSV, samples, `digest.py` | **$19** |
+
+**Do not dual-list** Offline / Tool as separate products. Prior `Gmail-Expense-Digest-Offline.zip` and a separate Tool tier are **superseded** — one upload only.
 
 ---
 
@@ -44,8 +45,8 @@ No Gmail login. No OAuth.
 
 ## Open these first
 1. README.md — quick start
-2. SETUP.md (Tool pack) — Python install notes
-3. FAQ.md (Tool pack) — common questions
+2. SETUP.md — Python install notes
+3. FAQ.md — common questions
 
 ## 60-second demo
 python3 digest.py sample_emails --out expenses.csv
@@ -61,7 +62,7 @@ python3 digest.py sample_emails --out expenses.csv
 - digest.py — offline digester (Python stdlib)
 - sample_emails/ — demo receipts
 - scripts/demo.sh + Makefile — one-command smoke test
-- (Tool pack) SETUP.md, FAQ.md, demo/expected-expenses.csv, LISTING-gumroad.md
+- SETUP.md, FAQ.md, demo/expected-expenses.csv, LISTING-gumroad.md
 
 ## Support
 Reply to your purchase receipt email.
@@ -78,14 +79,14 @@ Spot-check amounts before bookkeeping. Sample emails are fictional. Not affiliat
 
 ## Align before publish
 
-1. Open the zip you will upload (`Gmail-Expense-Digest-Tool.zip` preferred).
+1. Open the zip you will upload (`Gmail-Expense-Digest.zip`).
 2. Compare listing bullets to the table above.
 3. Run the demo yourself; fix copy or contents until every claim is true.
-4. See [HOW_TO_SELL.md](HOW_TO_SELL.md) for SKU choice and publish steps.
+4. See [HOW_TO_SELL.md](HOW_TO_SELL.md) for publish steps.
 
 ---
 
 ## Related
 
-- [HOW_TO_SELL.md](HOW_TO_SELL.md) — SKU → listing → publish checklist
+- [HOW_TO_SELL.md](HOW_TO_SELL.md) — single SKU → listing → publish checklist
 - [README.md](README.md) — developer / repo quick start
