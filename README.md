@@ -70,6 +70,13 @@ Export `.eml` from Gmail (or any client): open message → ⋮ → **Download me
 
 Local tool niche: sell as a simple Mac/Windows utility or wrap as a paid Notion/Sheets companion for people drowning in receipt email — not another freelancer cashflow spreadsheet.
 
+Sell / listing docs:
+
+| Doc | Purpose |
+| --- | --- |
+| [BUYER_README.md](BUYER_README.md) | Marketplace promise ↔ zip delivery map + paste-ready buyer start |
+| [HOW_TO_SELL.md](HOW_TO_SELL.md) | SKU choice (`Gmail-Expense-Digest-Tool.zip` primary) → listing → publish |
+
 ## License
 
 MIT
