@@ -1,4 +1,4 @@
 .PHONY: demo
 
 demo:
-	@./scripts/demo.sh
+	@bash scripts/demo.sh
