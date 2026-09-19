@@ -8,7 +8,7 @@ Works offline on `.eml` files first (no API keys). Live Gmail API can plug in la
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt   # optional; digester is stdlib-only today
 python digest.py sample_emails --out expenses.csv
 ```
@@ -18,7 +18,7 @@ Or run the demo smoke target:
 ```bash
 make demo
 # or
-./scripts/demo.sh
+bash scripts/demo.sh
 ```
 
 Both run against `sample_emails/` and print the CSV row count.
@@ -46,6 +46,18 @@ Export `.eml` from Gmail (or any client): open message → ⋮ → **Download me
 ## Demo / smoke
 
 `sample_emails/` ships three receipts (Amazon, Notion, Uber). After `make demo` you should see **3** data rows (plus a header line in the CSV).
+
+## Troubleshooting
+
+| Symptom | Fix |
+| --- | --- |
+| `No .eml files found` | Pass a folder that contains `.eml` files, or a single `.eml` path |
+| Empty `amount` | Forward/export the HTML receipt as `.eml`, or ensure body includes `Total` / `$12.34` |
+| Wrong merchant | Edit CSV after, or improve From display name in the mail client |
+| `Permission denied` on `./scripts/demo.sh` | Run `bash scripts/demo.sh` instead |
+| Want Gmail API | Not wired yet — keep using downloaded `.eml` exports |
+
+Companion category rules: https://github.com/chrissmith0722-stack/receipt-category-rules
 
 ## Money angle
 
