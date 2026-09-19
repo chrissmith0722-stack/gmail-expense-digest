@@ -18,7 +18,7 @@ Or run the demo smoke target:
 ```bash
 make demo
 # or
-bash scripts/demo.sh
+./scripts/demo.sh
 ```
 
 Both run against `sample_emails/` and print the CSV row count.
@@ -45,20 +45,31 @@ Export `.eml` from Gmail (or any client): open message → ⋮ → **Download me
 
 ## Demo / smoke
 
-`sample_emails/` ships three receipts (Amazon, Notion, Uber). After `make demo` you should see **3** data rows (plus a header line in the CSV).
+`sample_emails/` ships sample receipts (Amazon, Notion, Uber, Starbucks). After `make demo` you should see **4** data rows (plus a header line in the CSV).
+
+```bash
+./scripts/demo.sh
+# → demo row count: 4 (from 4 .eml files)
+# → demo ok
+```
 
 ## Troubleshooting
 
-| Symptom | Fix |
+| Problem | What to try |
 | --- | --- |
-| `No .eml files found` | Pass a folder that contains `.eml` files, or a single `.eml` path |
-| Empty `amount` | Forward/export the HTML receipt as `.eml`, or ensure body includes `Total` / `$12.34` |
-| Wrong merchant | Edit CSV after, or improve From display name in the mail client |
-| `Permission denied` on `./scripts/demo.sh` | Run `bash scripts/demo.sh` instead |
-| Want Gmail API | Not wired yet — keep using downloaded `.eml` exports |
-
-Companion category rules: https://github.com/chrissmith0722-stack/receipt-category-rules
+| `Inbox path not found` | Pass a real folder or `.eml` path: `python digest.py ./sample_emails --out out.csv` |
+| `demo row count: 0` | Ensure `sample_emails/*.eml` exist and are plain-text receipts with a `$` amount |
+| Amount blank in CSV | Body should include `Total:`, `Amount`, `Paid`, `charged`, or a `$12.34`-style amount on its own |
+| Wrong category | Categories are keyword heuristics (e.g. `amazon`→shopping, `uber`→travel, `starbucks`→food). Edit `CATEGORY_HINTS` in `digest.py` for your merchants |
+| `Permission denied: ./scripts/demo.sh` | `chmod +x scripts/demo.sh` or run `bash scripts/demo.sh` / `make demo` |
+| Multipart / HTML-only mail | Digester prefers `text/plain` parts. Re-export as `.eml` with a plain-text body, or add a plain part |
+| Encoding garbage | Files are read as bytes then decoded with replacement; re-save the `.eml` as UTF-8 if needed |
+| Want live Gmail | Not built-in yet — export `.eml` manually or wire the Gmail API later; keep secrets out of the repo |
 
 ## Money angle
 
 Local tool niche: sell as a simple Mac/Windows utility or wrap as a paid Notion/Sheets companion for people drowning in receipt email — not another freelancer cashflow spreadsheet.
+
+## License
+
+MIT
